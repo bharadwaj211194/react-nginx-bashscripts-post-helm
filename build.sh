@@ -5,23 +5,23 @@ sudo docker container prune -f && sudo docker image prune -a -f && sudo docker v
 sudo rm -r gold ## these steps are not recommened instead you can modify script as shown below
 sudo mkdir gold
 cd gold/
-sudo git clone https://github.com/Hari0o/Gold_Site_Ecommerce.git
+sudo git clone https://github.com/bharadwaj211194/Gold_Site_Ecommerce.git
 cd Gold_Site_Ecommerce/
 git_commit=$(sudo git rev-parse HEAD)
 sudo npm install react-scripts
 sudo npm run build
 sudo chmod 777 build
 current_date=$(date +%d%m%Y)
-aws s3api put-object --bucket buildartifactoryreactdemo --key "${current_date}/"
-aws s3 cp --recursive build "s3://buildartifactoryreactdemo/${current_date}/$(basename build)"
+aws s3api put-object --bucket artifactsdemo --key "${current_date}/"
+aws s3 cp --recursive build "s3://artifactsdemo/${current_date}/$(basename build)"
 sudo docker build -t react-nginx:$git_commit -f golddockerfile .
-sudo docker tag react-nginx:$git_commit sagarkakkala385/react-nginx:$git_commit ##make sure you did docker login
+sudo docker tag react-nginx:$git_commit bharadwaj2194/react-nginx:$git_commit ##make sure you did docker login
 sudo touch image_vulnerability.txt
 sudo chmod 777 image_vulnerability.txt
-trivy image sagarkakkala385/react-nginx > image_vulnerability.txt
-echo "Please find the attached Trivy file file." | mutt -s "Image Vulnerability" -a image_vulnerability.txt -- sagar.kakkala@gmail.com
+trivy image bharadwaj2194/react-nginx > image_vulnerability.txt
+echo "Please find the attached Trivy file file." | mutt -s "Image Vulnerability" -a image_vulnerability.txt -- vsnikhilbharadwajv@gmail.com
 /home/ubuntu/slack_bash.sh
-sudo docker push sagarkakkala385/react-nginx:$git_commit
+sudo docker push bharadwaj2194/react-nginx:$git_commit
 aws s3 rm s3://gitcommitidsreactdemo/new_value.txt
 sudo touch new_value.txt
 sudo chmod 777 new_value.txt
